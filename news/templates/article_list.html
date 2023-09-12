@@ -1,0 +1,30 @@
+{% block content %}
+    <section class="section">
+        <header>
+            <h1>Articles</h1>
+        </header>
+        <main>
+            <ul class="list">
+                {% for article in article_list %}
+                    <li>
+{#                        <a href="{% url 'news' article_id=article.pk %}">#}
+                            <section class="list-item">
+                                <header>
+                                    <h1>{{ article.title }}</h1>
+                                </header>
+                                <footer>
+                                    <div>
+                                        <p class="list-item__meta">{{ article.content }}</p>
+                                        <p class="list-item__meta">{{ article.author }}</p>
+                                    </div>
+                                </footer>
+                            </section>
+{#                        </a>#}
+                    </li>
+                {% empty %}
+                    <li>No articles yet.</li>
+                {% endfor %}
+            </ul>
+        </main>
+    </section>
+{% endblock %}

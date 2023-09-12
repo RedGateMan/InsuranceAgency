@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="home-section">
+        <section class="joke-wrapper section">
+            <header>
+                <h1>Here is a joke I've retrieved from API...</h1>
+            </header>
+            {{ joke }}
+        </section>
+        {% for article in article %}
+            <section>
+                <header>
+                    <h1>Latest article</h1>
+                </header>
+                <main>
+                    <pre>{{ article.content|truncatewords:10|safe }}</pre>
+                </main>
+                <footer>
+                    <p>{{ article.author }}</p>
+                    <p>{{ article.created_at }}</p>
+                </footer>
+            </section>
+        {% endfor %}
+        <div class="home-content">
+            {% include 'office_list.html' %}
+            {% include 'agent_list.html' %}
+            {% include 'insurance_list.html' %}
+        </div>
+    </div>
+
+{% endblock %}

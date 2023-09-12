@@ -1,0 +1,37 @@
+{% block content %}
+    <section class="section">
+        <header>
+            <h1>Agents</h1>
+        </header>
+        <main>
+            <ul class="list">
+                {% for agent in agent_list %}
+                    <li>
+                        <section class="list-item agent-item">
+                            <header>
+                                <h1>{{ agent.user.surname }} {{ agent.user.name }} {{ agent.user.patronymic }}</h1>
+                            </header>
+                            <footer>
+                                <div>
+                                    <p class="list-item__meta">{{ agent.office.address }}</p>
+                                    <p class="list-item__meta">{{ agent.user.email }}</p>
+                                    <p class="list-item__meta">{{ agent.user.phone }}</p>
+                                </div>
+                                {% if user.is_authenticated and not user.is_staff %}
+                                    <form method="get"
+                                          action="{% url 'object' user_id=user.pk agent_id=agent.pk %}">
+{#                                    {% url 'create_contract' user_id=user.pk agent_id=agent.pk %}#}
+                                        <input type="submit" value="Make a request" class=" button agent-item__button">
+                                        {% csrf_token %}
+                                    </form>
+                                {% endif %}
+                            </footer>
+                        </section>
+                    </li>
+                {% empty %}
+                    <li>No agents yet.</li>
+                {% endfor %}
+            </ul>
+        </main>
+    </section>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="form-container">
+        <form class="login-form__form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <ul class="login-form__form-content form-content">
+                <li class="form-item">
+                    <label for="inputEmail">Email</label>
+                    <input type="email" name="email" id="inputEmail" class="login-form__input"
+                           placeholder="Email address" required autofocus>
+                </li>
+                <li class="form-item">
+                    <label for="inputPassword">Password</label>
+                    <input type="password" name="password" id="inputPassword" class="login-form__input"
+                           placeholder="Password" required>
+                </li>
+
+
+            </ul>
+            <div class="form-errors">
+                {% for error in errors %}
+                <p style="color: var(--accent-color)">{{ error }}</p>
+            {% endfor %}
+            </div>
+            <button class="login-form__submit form-button" type="submit">Login</button>
+        </form>
+    </div>
+{% endblock content %}

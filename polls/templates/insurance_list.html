@@ -1,0 +1,28 @@
+{% block content %}
+    <section class="section">
+        <header>
+            <h1>Insurances</h1>
+        </header>
+        <main>
+            <ul class="list">
+                {% for insurance in insurance_list %}
+                    <li>
+                        <section class="list-item">
+                            <header>
+                                <h1>{{ insurance.type }}</h1>
+                            </header>
+                            <footer>
+                                <div>
+                                    <p class="list-item__meta">Minimal cost: {{ insurance.minimal_cost }}</p>
+                                    <p class="list-item__meta">Percentage: {{ insurance.percentage }}</p>
+                                </div>
+                            </footer>
+                        </section>
+                    </li>
+                {% empty %}
+                    <li>No insurances yet.</li>
+                {% endfor %}
+            </ul>
+        </main>
+    </section>
+{% endblock %}

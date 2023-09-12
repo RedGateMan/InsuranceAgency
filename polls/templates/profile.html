@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            IMask(document.getElementsByTagName('input').namedItem('phone'), {
+                mask: '+ {375} (00) 000-00-00'
+            });
+        })
+    </script>
+    <div class="profile-content">
+        <section class="profile-contracts section">
+            <header>
+                <h1>My Contracts</h1>
+            </header>
+            <main>
+                <ul class="list">
+                    {% if  active_contracts %}
+                        <li>
+                            <section class="section">
+                                <header>
+                                    <h1>Active contracts</h1>
+                                </header>
+                                <main class="contract-group">
+                                    <ul class="list">
+                                        {% for item in active_contracts %}
+                                            <li>
+                                                <div class="list-item">
+                                                    {% if user.is_staff %}
+                                                        <a href="{% url 'contract' contract_id=item.pk %}">
+                                                            <section class="contract-item">
+                                                                <header>
+                                                                    <p>{{ item.agent.user.name }} {{ item.agent.user.vsurname }}</p>
+                                                                    <p>{{ item.agent.user.email }}</p>
+                                                                </header>
+                                                                <footer>
+                                                                    <p>{{ item.insurance.insurance_type }}</p>
+                                                                </footer>
+                                                            </section>
+                                                        </a>
+                                                    {% else %}
+                                                        <section class="contract-item">
+                                                            <header>
+                                                                <p>{{ item.agent.user.name }} {{ item.agent.user.vsurname }}</p>
+                                                                <p>{{ item.agent.user.email }}</p>
+                                                            </header>
+                                                            <footer>
+                                                                <p>{{ item.insurance.insurance_type }}</p>
+                                                            </footer>
+                                                        </section>
+                                                    {% endif %}
+                                                </div>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </main>
+                            </section>
+                        </li>
+                    {% endif %}
+                    {% if  pending_contracts %}
+                        <li>
+                            <section class="section">
+                                <header>
+                                    <h1>Pending contracts</h1>
+                                </header>
+                                <main class="contract-group">
+                                    <ul class="list">
+                                        {% for item in pending_contracts %}
+                                            <li>
+                                                <div class="list-item">
+                                                    {% if user.is_staff %}
+                                                        <a href="{% url 'contract' contract_id=item.pk %}">
+                                                            <section class="contract-item">
+                                                                <header>
+                                                                    <p>{{ item.agent.user.name }} {{ item.agent.user.surname }}</p>
+                                                                    <p>{{ item.agent.user.email }}</p>
+                                                                </header>
+                                                                <footer>
+                                                                    <p>{{ item.insurance.insurance_type }}</p>
+                                                                </footer>
+                                                            </section>
+                                                        </a>
+                                                    {% else %}
+                                                        <section class="contract-item">
+                                                            <header>
+                                                                <p>{{ item.agent.user.name }} {{ item.agent.user.surname }}</p>
+                                                                <p>{{ item.agent.user.email }}</p>
+                                                            </header>
+                                                            <footer>
+                                                                <p>{{ item.insurance.insurance_type }}</p>
+                                                            </footer>
+                                                        </section>
+                                                    {% endif %}
+                                                </div>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </main>
+                            </section>
+                        </li>
+                    {% endif %}
+                    {% if declined_contracts %}
+                        <li>
+                            <section class="section">
+                                <header>
+                                    <h1>Declined contracts</h1>
+                                </header>
+                                <main class="contract-group">
+                                    <ul class="list">
+                                        {% for item in declined_contracts %}
+                                            <li>
+                                                <div class="list-item">
+                                                    {% if user.is_staff %}
+                                                        <a href="{% url 'contract' contract_id=item.pk %}">
+                                                            <section class="contract-item">
+                                                                <header>
+                                                                    <p>{{ item.agent.user.name }} {{ item.agent.user.surname }}</p>
+                                                                    <p>{{ item.agent.user.email }}</p>
+                                                                </header>
+                                                                <footer>
+
+                                                                    <p>{{ item.insurance.insurance_type }}</p>
+                                                                </footer>
+                                                            </section>
+                                                        </a>
+                                                    {% else %}
+                                                        <section class="contract-item">
+                                                            <header>
+                                                                <p>{{ item.agent.user.name }} {{ item.agent.user.surname }}</p>
+                                                                <p>{{ item.agent.user.email }}</p>
+                                                            </header>
+                                                            <footer>
+
+                                                                <p>{{ item.insurance.insurance_type }}</p>
+                                                            </footer>
+                                                        </section>
+                                                    {% endif %}
+                                                </div>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </main>
+                            </section>
+                        </li>
+                    {% endif %}
+                </ul>
+            </main>
+        </section>
+        <section class="form-container">
+            <header class="form-container__header">
+                <h1>Update user profile</h1>
+            </header>
+            <form class="update-user__form" method="post" action="{% url 'update_profile' %}">
+                {{ form.as_p }}
+                <input class="login-form__submit form-button" type="submit" value="Save"/>
+                {% csrf_token %}
+            </form>
+            <div class="form-errors">
+                {% for error in errors %}
+                    <p style="color: var(--accent-color)">{{ error }}</p>
+                {% endfor %}
+            </div>
+            <div style="margin-top: 20px">
+                {% if success %}
+                    Successfully Updated
+                {% endif %}
+            </div>
+            {% if salary %}
+                <footer>
+                    <p>Salary: {{ salary }}</p>
+                </footer>
+            {% endif %}
+        </section>
+    </div>
+{% endblock content %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="contract-content">
+        <section class="form-container">
+            <header class="form-container__header">
+                <h1>Edit contract {{ contract }}</h1>
+            </header>
+            <form method="post" id="contract-form"
+                  action="{% url 'update_contract' contract_id=contract.pk action="ACTIVE" %}">
+                {{ form.as_p }}
+                <input class="login-form__submit form-button" type="submit" value="Save"/>
+                <input id="button__decline-contract" class="login-form__submit form-button" type="submit"
+                       value="Decline"/>
+                {% csrf_token %}
+            </form>
+            <div class="form-errors">
+                {% for error in errors %}
+                    <p style="color: var(--accent-color)">{{ error }}</p>
+                {% endfor %}
+            </div>
+            <div style="margin-top: 20px">
+                {% if success %}
+                    Successfully Updated
+                {% endif %}
+            </div>
+        </section>
+    </div>
+    <script>
+        let decline_button = document.getElementById('button__decline-contract')
+        decline_button.addEventListener('click', (event) => {
+            event.preventDefault()
+            let form = document.getElementById('contract-form')
+            form.action = '{% url 'update_contract' contract_id=contract.pk action="DECLINED" %}'
+            form.submit()
+        })
+    </script>
+{% endblock content %}

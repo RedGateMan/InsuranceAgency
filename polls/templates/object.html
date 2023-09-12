@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="object-content">
+        <section class="form-container">
+            <header class="form-container__header">
+                <h1>Update user profile</h1>
+            </header>
+            <form class="object-form" method="post" action="{% url 'create_object' user_id=user_id agent_id=agent_id %}">
+                {{ form.as_p }}
+                <input class="login-form__submit form-button" type="submit" value="Save"/>
+                {% csrf_token %}
+            </form>
+            <div class="form-errors">
+                {% for error in errors %}
+                    <p style="color: var(--accent-color)">{{ error }}</p>
+                {% endfor %}
+            </div>
+            <div style="margin-top: 20px">
+                {% if success %}
+                    Successfully Updated
+                {% endif %}
+            </div>
+        </section>
+    </div>
+{% endblock content %}
